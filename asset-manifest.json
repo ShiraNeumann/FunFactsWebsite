@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/FunFactsWebsite/static/css/main.073c9b0a.css",
+    "main.js": "/FunFactsWebsite/static/js/main.69ec3e72.js",
+    "static/js/787.0fe84981.chunk.js": "/FunFactsWebsite/static/js/787.0fe84981.chunk.js",
+    "index.html": "/FunFactsWebsite/index.html",
+    "main.073c9b0a.css.map": "/FunFactsWebsite/static/css/main.073c9b0a.css.map",
+    "main.69ec3e72.js.map": "/FunFactsWebsite/static/js/main.69ec3e72.js.map",
+    "787.0fe84981.chunk.js.map": "/FunFactsWebsite/static/js/787.0fe84981.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.69ec3e72.js"
+  ]
+}
