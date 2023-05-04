@@ -9,6 +9,7 @@ import Card from "@mui/material/Card";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 
 import { useState, useEffect } from "react";
+import { Button } from "@mui/material";
 export function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -134,14 +135,36 @@ export function BasicTabs() {
       <TabPanel value={value} index={0}>
         <Typography
           variant="h1"
+          // fontFamily={"Bahnschrift SemiLight"}
           sx={{ alignSelf: "left", paddingLeft: "5%", paddingTop: "12%" }}
         >
           Random <br />
           Word
+          <br />
+          <Button
+            variant="text"
+            color="inherit"
+            onClick={() => {
+              getRandomWord();
+            }}
+          >
+            See another
+          </Button>
         </Typography>
+
         <Box sx={{ minWidth: 275 }}>
           <Card
-            className="card-behind"
+            className="card-behind-behind-behind"
+            sx={{
+              width: "32vw",
+              minWidth: "275px",
+              minHeight: "275px",
+              height: "32vw",
+              backgroundColor: "#ffbc4b  ",
+            }}
+          ></Card>
+          <Card
+            className="card-behind-behind"
             sx={{
               width: "32vw",
               minWidth: "275px",
@@ -150,22 +173,32 @@ export function BasicTabs() {
               backgroundColor: "#4f9bf4  ",
             }}
           ></Card>
-
           <Card
-            className={`card ${isWordFlipped ? "back" : "front"}`}
+            className="card-behind"
             sx={{
               width: "32vw",
               minWidth: "275px",
               minHeight: "275px",
               height: "32vw",
-              overflowY: "scroll",
+              backgroundColor: "#f37ba3  ",
             }}
+          ></Card>
+
+          <Card
+            sx={{ overflow: "auto" }}
+            className={`card ${isWordFlipped ? "back" : "front"}`}
           >
             {isWordFlipped ? (
               <>
                 {Array.isArray(data) &&
                   data.map((entry) => (
-                    <div key={entry.word}>
+                    <div
+                      key={entry.word}
+                      style={{
+                        height: "100%",
+                        alignItems: "center",
+                      }}
+                    >
                       {entry.meanings.map((meaning) => (
                         <>
                           <Typography variant="h3" sx={{ padding: "3%" }}>
@@ -187,18 +220,22 @@ export function BasicTabs() {
               </>
             ) : (
               <>
-                {/* <button onClick={getRandomWord}>Get random word</button> */}
-
                 {Array.isArray(data) &&
-                  data.map((entry) => (
-                    <Typography
-                      variant="h2"
-                      sx={{ padding: "3%" }}
-                      gutterBottom
-                    >
-                      {entry.word}
-                    </Typography>
-                  ))}
+                  data
+                    .filter(
+                      (entry, index, self) =>
+                        self.findIndex((e) => e.word === entry.word) === index
+                    )
+                    .map((entry) => (
+                      <Typography
+                        variant="h2"
+                        sx={{ padding: "3%" }}
+                        gutterBottom
+                        key={entry.word}
+                      >
+                        {entry.word}
+                      </Typography>
+                    ))}
               </>
             )}
 
@@ -221,7 +258,38 @@ export function BasicTabs() {
             sx={{ alignSelf: "left", paddingLeft: "5%", paddingTop: "12%" }}
           >
             Riddle
+            <br />
+            <Button
+              variant="text"
+              color="inherit"
+              onClick={() => {
+                getRiddle();
+              }}
+            >
+              See another
+            </Button>
           </Typography>
+
+          <Card
+            className="card-behind-behind-behind"
+            sx={{
+              width: "32vw",
+              minWidth: "275px",
+              minHeight: "275px",
+              height: "32vw",
+              backgroundColor: "#6900ba  ",
+            }}
+          ></Card>
+          <Card
+            className="card-behind-behind"
+            sx={{
+              width: "32vw",
+              minWidth: "275px",
+              minHeight: "275px",
+              height: "32vw",
+              backgroundColor: "#c9f061  ",
+            }}
+          ></Card>
           <Card
             className="card-behind"
             sx={{
@@ -229,29 +297,20 @@ export function BasicTabs() {
               minWidth: "275px",
               minHeight: "275px",
               height: "32vw",
-              backgroundColor: "#f37ba3   ",
+              backgroundColor: "#ffbc4b  ",
             }}
           ></Card>
-          <Card
-            className="card"
-            sx={{
-              width: "32vw",
-              minWidth: "275px",
-              minHeight: "275px",
-              height: "32vw",
-              overflow: "auto",
-            }}
-          >
+          <Card className="card" sx={{ overflow: "auto" }}>
             {isRiddleFlipped ? (
               <Typography variant="h4" sx={{ padding: "3%" }}>
                 Answer: {riddle[1]}
               </Typography>
             ) : (
               <Typography variant="h4" sx={{ padding: "3%" }}>
-                Riddle: {riddle[0]}
+                {/* Riddle:  */}
+                {riddle[0]}
               </Typography>
             )}
-            {/* <button onClick={getRiddle}>Get Riddle</button> */}
 
             <RotateLeftIcon
               onClick={handleRiddleFlipCard}
@@ -270,8 +329,38 @@ export function BasicTabs() {
           sx={{ alignSelf: "left", paddingLeft: "5%", paddingTop: "12%" }}
         >
           Fun Fact
+          <br />
+          <Button
+            variant="text"
+            color="inherit"
+            onClick={() => {
+              getFact();
+            }}
+          >
+            See another
+          </Button>
         </Typography>
         <Box sx={{ minWidth: 275 }}>
+          <Card
+            className="card-behind-behind-behind"
+            sx={{
+              width: "32vw",
+              minWidth: "275px",
+              minHeight: "275px",
+              height: "32vw",
+              backgroundColor: "#6900ba  ",
+            }}
+          ></Card>
+          <Card
+            className="card-behind-behind"
+            sx={{
+              width: "32vw",
+              minWidth: "275px",
+              minHeight: "275px",
+              height: "32vw",
+              backgroundColor: "#c9f061  ",
+            }}
+          ></Card>
           <Card
             className="card-behind"
             sx={{
@@ -282,16 +371,7 @@ export function BasicTabs() {
               backgroundColor: "#ffbc4b  ",
             }}
           ></Card>
-          <Card
-            className="card"
-            sx={{
-              width: "32vw",
-              minWidth: "275px",
-              minHeight: "275px",
-              height: "32vw",
-              overflow: "auto",
-            }}
-          >
+          <Card className="card" sx={{ overflow: "auto" }}>
             {/* <button onClick={getFact}>Get Fact</button> */}
             <Typography variant="h4" sx={{ padding: "3%" }}>
               {fact}
