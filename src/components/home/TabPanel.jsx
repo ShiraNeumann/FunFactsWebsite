@@ -306,10 +306,11 @@ export function BasicTabs() {
                 Answer: {riddle[1]}
               </Typography>
             ) : (
-              <Typography variant="h4" sx={{ padding: "3%" }}>
-                {/* Riddle:  */}
-                {riddle[0]}
-              </Typography>
+              <div style={{ height: "100%", alignContent: "center" }}>
+                <Typography variant="h4" sx={{ padding: "3%" }}>
+                  {riddle[0]}
+                </Typography>
+              </div>
             )}
 
             <RotateLeftIcon
@@ -372,10 +373,11 @@ export function BasicTabs() {
             }}
           ></Card>
           <Card className="card" sx={{ overflow: "auto" }}>
-            {/* <button onClick={getFact}>Get Fact</button> */}
-            <Typography variant="h4" sx={{ padding: "3%" }}>
-              {fact}
-            </Typography>
+            <div style={{ height: "100%", alignContent: "center" }}>
+              <Typography variant="h4" sx={{ padding: "3%" }}>
+                {fact}
+              </Typography>
+            </div>
           </Card>
         </Box>
       </TabPanel>
