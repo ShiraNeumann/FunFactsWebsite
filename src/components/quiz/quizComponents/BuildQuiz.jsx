@@ -1,14 +1,15 @@
 import React, { useState, useContext } from "react";
 import { BasicSelect } from "./BasicSelect";
-import { Button } from "@mui/material";
+import { Button, FormControlLabel, Switch, Typography } from "@mui/material";
 import { QuizQuestions } from "./quizQuestions";
 import "../quiz.css";
 import { quizcontext } from "../../../state/quiz/quiz-context";
+import Checkbox from "@mui/material/Checkbox";
 
 export const BuildQuiz = () => {
   const [numQuestions, setNumQuestions] = useState("");
   const [difficulty, setDifficulty] = useState("");
-  const [timedQuiz, setTimedQuiz] = useState("");
+  const [timedQuiz, setTimedQuiz] = useState(false);
   const [category, setCategory] = useState("");
   const [categoryNum, setCategoryNum] = useState("");
   const { quizState, quizDispatch } = useContext(quizcontext);
@@ -32,18 +33,20 @@ export const BuildQuiz = () => {
       type: "START",
     });
   };
+
   return (
     <>
       {quizState.start ? (
         <QuizQuestions
           numQuestions={numQuestions}
           difficulty={difficulty}
-          timedQuiz={timedQuiz == "Yes" ? true : false}
+          timedQuiz={timedQuiz}
           categoryNum={categoryNum}
           category={category}
         />
       ) : (
         <div className="select-container">
+          <Typography variant="h3">Build Your Quiz</Typography>
           <BasicSelect
             title="Number of Questions"
             options={[5, 10, 15, 20]}
@@ -74,17 +77,22 @@ export const BuildQuiz = () => {
             }}
           />
 
-          <BasicSelect
-            title="Timed Quiz"
-            options={["Yes", "No"]}
-            value={timedQuiz}
-            onChange={(selectedValue) => {
-              setTimedQuiz(selectedValue);
-            }}
+          <FormControlLabel
+            control={
+              <Switch
+                checked={timedQuiz}
+                onChange={(event) => {
+                  setTimedQuiz(event.target.checked);
+                }}
+              />
+            }
+            label="Timed Quiz"
           />
+
           <Button
             onClick={setStart}
-            disabled={!numQuestions || !difficulty || !timedQuiz}
+            disabled={!numQuestions || !difficulty}
+            style={{ color: "black" }}
           >
             Start Quiz
           </Button>

@@ -157,7 +157,7 @@ export const QuizQuestions = (props) => {
         <ProgressBar total={numQuestions} current={progress} />
         <ModalTimeout
           modalOpen={
-            (timedQuiz && modalOpen) || activeQuestion + 1 == numQuestions
+            (timedQuiz && modalOpen) || activeQuestion + 1 === numQuestions
           }
           timedQuiz={timedQuiz}
           timeLeft={timeLeft}
@@ -167,6 +167,10 @@ export const QuizQuestions = (props) => {
             correct: userAnswersMarked.reduce((total, num) => total + num, 0),
             difficulty: difficulty,
             timed: timedQuiz,
+            score: Math.round(
+              (userAnswersMarked.reduce((total, num) => total + num, 0) * 100) /
+                numQuestions
+            ),
           }}
         />
       </Card>

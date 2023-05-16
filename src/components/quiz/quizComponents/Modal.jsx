@@ -18,7 +18,7 @@ const style = {
 };
 
 export function ModalTimeout(props) {
-  const { modalOpen, timedQuiz, timeLeft, details } = props;
+  const { modalOpen, details } = props;
   const [open, setOpen] = React.useState(modalOpen);
   const { quizDispatch } = useContext(quizcontext);
 
@@ -52,15 +52,8 @@ export function ModalTimeout(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-            {timedQuiz && timeLeft <= 0 ? "Time is up!" : "Finished!"}
-          </Typography> */}
-
           <Typography variant="h2">Quiz Results</Typography>
-          <Typography>
-            You scored :{" "}
-            {Math.round((details.correct * 100) / details.questions)}
-          </Typography>
+          <Typography>You scored :{details.scored}</Typography>
           <Typography>Total questions: {details.questions}</Typography>
           <Typography>Correct questions: {details.correct}</Typography>
           <Typography>

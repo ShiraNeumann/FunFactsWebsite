@@ -126,13 +126,87 @@ export function BasicTabs() {
           }}
           textColor="inherit"
         >
-          <Tab disableRipple label="Random Word" {...a11yProps(0)} />
-          <Tab disableRipple label="Riddle" {...a11yProps(1)} />
+          <Tab disableRipple label="Riddle" {...a11yProps(0)} />
+          <Tab disableRipple label="Random Word" {...a11yProps(1)} />
           <Tab disableRipple label="Fun Fact" {...a11yProps(2)} />
         </Tabs>
       </Box>
 
       <TabPanel value={value} index={0}>
+        <Box sx={{ minWidth: 275 }}>
+          <Typography
+            variant="h1"
+            sx={{ alignSelf: "left", paddingLeft: "5%", paddingTop: "12%" }}
+          >
+            Riddle
+            <br />
+            <Button
+              variant="text"
+              color="inherit"
+              onClick={() => {
+                getRiddle();
+              }}
+            >
+              See another
+            </Button>
+          </Typography>
+
+          <Card
+            className="card-behind-behind-behind"
+            sx={{
+              width: "32vw",
+              minWidth: "275px",
+              minHeight: "275px",
+              height: "32vw",
+              backgroundColor: "#6900ba  ",
+            }}
+          ></Card>
+          <Card
+            className="card-behind-behind"
+            sx={{
+              width: "32vw",
+              minWidth: "275px",
+              minHeight: "275px",
+              height: "32vw",
+              backgroundColor: "#c9f061  ",
+            }}
+          ></Card>
+          <Card
+            className="card-behind"
+            sx={{
+              width: "32vw",
+              minWidth: "275px",
+              minHeight: "275px",
+              height: "32vw",
+              backgroundColor: "#ffbc4b  ",
+            }}
+          ></Card>
+          <Card className="card" sx={{ overflow: "auto" }}>
+            {isRiddleFlipped ? (
+              <Typography variant="h4" sx={{ padding: "3%" }}>
+                Answer: {riddle[1]}
+              </Typography>
+            ) : (
+              <div style={{ height: "100%", alignContent: "center" }}>
+                <Typography variant="h4" sx={{ padding: "3%" }}>
+                  {riddle[0]}
+                </Typography>
+              </div>
+            )}
+
+            <RotateLeftIcon
+              onClick={handleRiddleFlipCard}
+              sx={{
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+              }}
+            />
+          </Card>
+        </Box>
+      </TabPanel>
+
+      <TabPanel value={value} index={1}>
         <Typography
           variant="h1"
           // fontFamily={"Bahnschrift SemiLight"}
@@ -241,80 +315,6 @@ export function BasicTabs() {
 
             <RotateLeftIcon
               onClick={handleWordFlipCard}
-              sx={{
-                position: "absolute",
-                bottom: 0,
-                right: 0,
-              }}
-            />
-          </Card>
-        </Box>
-      </TabPanel>
-
-      <TabPanel value={value} index={1}>
-        <Box sx={{ minWidth: 275 }}>
-          <Typography
-            variant="h1"
-            sx={{ alignSelf: "left", paddingLeft: "5%", paddingTop: "12%" }}
-          >
-            Riddle
-            <br />
-            <Button
-              variant="text"
-              color="inherit"
-              onClick={() => {
-                getRiddle();
-              }}
-            >
-              See another
-            </Button>
-          </Typography>
-
-          <Card
-            className="card-behind-behind-behind"
-            sx={{
-              width: "32vw",
-              minWidth: "275px",
-              minHeight: "275px",
-              height: "32vw",
-              backgroundColor: "#6900ba  ",
-            }}
-          ></Card>
-          <Card
-            className="card-behind-behind"
-            sx={{
-              width: "32vw",
-              minWidth: "275px",
-              minHeight: "275px",
-              height: "32vw",
-              backgroundColor: "#c9f061  ",
-            }}
-          ></Card>
-          <Card
-            className="card-behind"
-            sx={{
-              width: "32vw",
-              minWidth: "275px",
-              minHeight: "275px",
-              height: "32vw",
-              backgroundColor: "#ffbc4b  ",
-            }}
-          ></Card>
-          <Card className="card" sx={{ overflow: "auto" }}>
-            {isRiddleFlipped ? (
-              <Typography variant="h4" sx={{ padding: "3%" }}>
-                Answer: {riddle[1]}
-              </Typography>
-            ) : (
-              <div style={{ height: "100%", alignContent: "center" }}>
-                <Typography variant="h4" sx={{ padding: "3%" }}>
-                  {riddle[0]}
-                </Typography>
-              </div>
-            )}
-
-            <RotateLeftIcon
-              onClick={handleRiddleFlipCard}
               sx={{
                 position: "absolute",
                 bottom: 0,
