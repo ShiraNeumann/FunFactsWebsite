@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, Skeleton, Typography, Grid } from "@mui/material";
 import { ProgressBar } from "./ProgressBar";
+import Stack from "@mui/material/Stack";
+
 import Card from "@mui/material/Card";
 import { ModalTimeout } from "./Modal";
+import { Timer } from "./Timer";
+
 export const QuizQuestions = (props) => {
   const [allQuestions, setAllQuestions] = useState([]);
   const [activeQuestion, setActiveQuestion] = useState(0);
@@ -12,9 +16,10 @@ export const QuizQuestions = (props) => {
   const [answers, setAnswers] = useState([]);
   const { numQuestions, difficulty, timedQuiz, category, categoryNum } = props;
   const [timeLeft, setTimeLeft] = useState(
-    props.timedQuiz ? numQuestions * 10 : null
+    timedQuiz ? numQuestions * 10 : null
   );
   const [modalOpen, setModalOpen] = useState(false);
+  const [optionsDisabled, setOptionsDisabled] = useState(false);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -52,7 +57,6 @@ export const QuizQuestions = (props) => {
     setUserAnswersMarked(Array(numQuestions).fill(0));
   }, []);
 
-  //TO DO FIX TIMEOUT WHEN MODAL IS OPEN
   useEffect(() => {
     if (timedQuiz) {
       const timer = setInterval(() => {
@@ -85,79 +89,159 @@ export const QuizQuestions = (props) => {
       newMarked[activeQuestion] = 0;
     }
     setUserAnswersMarked(newMarked);
+    setOptionsDisabled(true);
   };
 
   const onClickNext = () => {
     setSelectedAnswerIndex(null);
     setActiveQuestion((prev) => prev + 1);
     setProgress((prevProgress) => prevProgress + 1);
+
+    setOptionsDisabled(false);
   };
 
-  const onClickFinish = () => {
-    //send to results page
-  };
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+  const getClass = (option, index) => {
+    const corr = allQuestions[activeQuestion].correct_answer;
+    if (selectedAnswerIndex == null) {
+      return ``;
+    }
+    if (option !== corr && index === selectedAnswerIndex) {
+      return `incorrectAnswer`;
+    } else if (option === corr) {
+      return `correctAnswer`;
+    }
   };
 
   return (
-    <div>
-      <Card>
-        {allQuestions.length > 0 && (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "80vh",
+      }}
+    >
+      <Card
+        sx={{
+          width: "35vw",
+          height: "35vw",
+          minHeight: "400px",
+          minWidth: "400px",
+          position: "relative",
+        }}
+      >
+        {allQuestions.length > 0 ? (
           <div key={allQuestions[activeQuestion].question}>
-            <Typography variant="h2">
-              Question {activeQuestion + 1 + " / " + numQuestions}
-            </Typography>
+            <Grid
+              container
+              alignItems="baseline"
+              justifyContent="space-between"
+              sx={{ padding: "2%" }}
+            >
+              <Grid item>
+                <Grid container alignItems="baseline">
+                  <Grid item>
+                    <Typography variant="h4">{activeQuestion + 1}</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography color="text.secondary">
+                      {" / " + numQuestions}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              {timedQuiz && (
+                <Timer time={timeLeft} totalTime={numQuestions * 10} />
+              )}
+            </Grid>
+
             <Typography
-              sx={{ margin: "10px" }}
+              variant="h4"
+              sx={{ margin: "10px", fontSize: "max(2vw, 24px)" }}
               dangerouslySetInnerHTML={{
                 __html: allQuestions[activeQuestion].question,
               }}
-            ></Typography>
-
-            {timedQuiz && formatTime(timeLeft)}
+              align="center"
+            />
 
             {answers.map((answer, index) => (
               <Typography
-                className={`${
-                  selectedAnswerIndex === index ? "selectedAnswer" : ""
-                } choice`}
-                sx={{ margin: "10px" }}
+                className={`${getClass(answer.answer, index)} choice`}
+                sx={{
+                  margin: "10px",
+                  pointerEvents: optionsDisabled ? "none" : "auto",
+                }}
                 key={answer.answer}
-                onClick={() => onAnswerSelected(answer.answer)}
+                onClick={
+                  optionsDisabled ? null : () => onAnswerSelected(answer.answer)
+                }
                 dangerouslySetInnerHTML={{ __html: answer.answer }}
-              ></Typography>
+              />
             ))}
           </div>
+        ) : (
+          <>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Stack spacing={0} direction="column">
+                  <Skeleton
+                    variant="rectangular"
+                    width={"30vw"}
+                    height={"8vw"}
+                  />
+                  <Skeleton variant="text" width={"30vw"} height={"5vw"} />
+                  <Skeleton variant="text" width={"30vw"} height={"5vw"} />
+                  <Skeleton variant="text" width={"30vw"} height={"5vw"} />
+                  <Skeleton variant="text" width={"30vw"} height={"5vw"} />
+                </Stack>
+              </div>
+            </div>
+          </>
         )}
         {activeQuestion < numQuestions - 1 ? (
-          <Button
-            onClick={() => {
-              onClickNext();
-            }}
-            color="inherit"
-            disabled={selectedAnswerIndex === null}
-          >
-            Next
-          </Button>
+          <Grid container justifyContent="flex-end">
+            <Button
+              onClick={() => {
+                onClickNext();
+              }}
+              color="inherit"
+              disabled={selectedAnswerIndex === null}
+              sx={{ backgroundColor: "#98b8c7", margin: "2%" }}
+            >
+              Next
+            </Button>
+          </Grid>
         ) : (
-          <Button
-            onClick={() => {
-              onClickFinish();
-            }}
-            color="inherit"
-            disabled={selectedAnswerIndex === null}
-          >
-            Finish
-          </Button>
+          ""
         )}
-        <ProgressBar total={numQuestions} current={progress} />
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+          }}
+        >
+          <ProgressBar total={numQuestions} current={progress} />
+        </div>
+
         <ModalTimeout
           modalOpen={
-            (timedQuiz && modalOpen) || activeQuestion + 1 === numQuestions
+            modalOpen ||
+            (activeQuestion === numQuestions - 1 &&
+              selectedAnswerIndex !== null)
           }
           timedQuiz={timedQuiz}
           timeLeft={timeLeft}

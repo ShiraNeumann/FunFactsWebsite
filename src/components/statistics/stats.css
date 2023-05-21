@@ -1,6 +1,9 @@
-.side{
+
+
+.page{
+    background-color: #ffd0d5 ;
     height: 100vh;
-    width: 20vw;
-display: flex;
-    background-color: orange;
+    width: 100vw;
+    padding-top: 68px;
+    overflow: auto;
 }

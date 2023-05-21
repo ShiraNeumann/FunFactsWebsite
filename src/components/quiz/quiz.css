@@ -3,6 +3,7 @@
     height: 100vh;
     width: 100vw;
     padding-top: 68px;
+    overflow: auto;
 }
 
 .choice{
@@ -11,32 +12,42 @@
    
 }
 
+.choice:hover{
+    background: #fce6e8;
+}
+
 .selectedAnswer{
     background: #ffd6ff;
     border: 1px solid #800080;
 }
 
-/* .card{
-   
-    height: 50vw;
-    width: 50vw;
-    min-width: 275px;
-    min-Height: 275px;
-} */
+
+.correctAnswer{
+    background: #c9f061;
+    border: 1px solid green;
+}
+.incorrectAnswer{
+    background: red;
+    border: 1px solid maroon;
+}
 
 .select-container {
     display: flex;
     flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
     gap: 10px;
     padding: 10px;
     width: 35vw;
     height: 35vw;
+    min-width: 400px; 
+    min-height: 400px;
     border: 1px solid gray;
-    /* background-color: #ffbc4b; */
     background-color: white;
-    margin: auto;
+    box-sizing: border-box;
+    margin: auto;   
     box-shadow: 2px 2px #d9adca;
-    
-   
   }
+  
+
 

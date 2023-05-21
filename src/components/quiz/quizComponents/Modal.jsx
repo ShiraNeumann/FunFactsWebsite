@@ -5,12 +5,15 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { quizcontext } from "../../../state/quiz/quiz-context";
 import { useNavigate } from "react-router-dom";
+import Grid from "@mui/material/Grid";
+
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  textAlign: "center",
+  width: "max(30vw, 300px)",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -52,15 +55,51 @@ export function ModalTimeout(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography variant="h2">Quiz Results</Typography>
-          <Typography>You scored :{details.scored}</Typography>
-          <Typography>Total questions: {details.questions}</Typography>
-          <Typography>Correct questions: {details.correct}</Typography>
-          <Typography>
-            Incorrect questions: {details.questions - details.correct}
+          <Typography variant="h2" sx={{ fontSize: " max(4vw, 30px)" }}>
+            Quiz Results
           </Typography>
-          <Button onClick={restart}>Try Again</Button>
-          <Button onClick={onClickstatistics}>View Statistics</Button>
+          <div style={{ textAlign: "justify", margin: "auto", width: "75%" }}>
+            <Grid container spacing={1} justifyContent="center">
+              <Grid item xs={8} style={{ textAlign: "left" }}>
+                <Typography>You scored:</Typography>
+              </Grid>
+              <Grid item xs={4} style={{ textAlign: "right" }}>
+                <Typography>{details.score}</Typography>
+              </Grid>
+              <Grid item xs={8} style={{ textAlign: "left" }}>
+                <Typography>Total questions:</Typography>
+              </Grid>
+              <Grid item xs={4} style={{ textAlign: "right" }}>
+                <Typography>{details.questions}</Typography>
+              </Grid>
+              <Grid item xs={8} style={{ textAlign: "left" }}>
+                <Typography>Correct questions:</Typography>
+              </Grid>
+              <Grid item xs={4} style={{ textAlign: "right" }}>
+                <Typography>{details.correct}</Typography>
+              </Grid>
+              <Grid item xs={8} style={{ textAlign: "left" }}>
+                <Typography>Incorrect questions:</Typography>
+              </Grid>
+              <Grid item xs={4} style={{ textAlign: "right" }}>
+                <Typography>{details.questions - details.correct}</Typography>
+              </Grid>
+              <Grid item xs={8} style={{ textAlign: "left" }}>
+                <Button variant="contained" color="secondary" onClick={restart}>
+                  Try Again
+                </Button>
+              </Grid>
+              <Grid item xs={4} style={{ textAlign: "right" }}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={onClickstatistics}
+                >
+                  Statistics
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
         </Box>
       </Modal>
     </div>

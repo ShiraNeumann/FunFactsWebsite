@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { BasicSelect } from "./BasicSelect";
 import { Button, FormControlLabel, Switch, Typography } from "@mui/material";
 import { QuizQuestions } from "./quizQuestions";
 import "../quiz.css";
 import { quizcontext } from "../../../state/quiz/quiz-context";
-import Checkbox from "@mui/material/Checkbox";
+import { useLocation } from "react-router-dom";
 
 export const BuildQuiz = () => {
   const [numQuestions, setNumQuestions] = useState("");
@@ -13,6 +13,8 @@ export const BuildQuiz = () => {
   const [category, setCategory] = useState("");
   const [categoryNum, setCategoryNum] = useState("");
   const { quizState, quizDispatch } = useContext(quizcontext);
+
+  const location = useLocation();
 
   const numVals = [
     { value: 27, label: "Animals" },
@@ -34,6 +36,28 @@ export const BuildQuiz = () => {
     });
   };
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+
+    // Access the query parameters
+    const difficulty = queryParams.get("difficulty");
+    const category = queryParams.get("category");
+    const number = queryParams.get("number");
+    const timed = queryParams.get("timed") === "true";
+    console.log(timed + " state " + timedQuiz);
+    if (difficulty && category && number) {
+      const selectedCategory = numVals.find((item) => item.label === category);
+
+      setCategoryNum(selectedCategory.value);
+      setCategory(category);
+      setDifficulty(difficulty);
+      setTimedQuiz(timed);
+      console.log(timed + " insidestate " + timedQuiz);
+      setNumQuestions(number);
+      setStart();
+    }
+  }, [location]);
+
   return (
     <>
       {quizState.start ? (
@@ -43,10 +67,20 @@ export const BuildQuiz = () => {
           timedQuiz={timedQuiz}
           categoryNum={categoryNum}
           category={category}
-        />
+        >
+          {console.log(
+            numQuestions,
+            difficulty,
+            timedQuiz,
+            category,
+            categoryNum
+          )}
+        </QuizQuestions>
       ) : (
         <div className="select-container">
-          <Typography variant="h3">Build Your Quiz</Typography>
+          <Typography variant="h3" sx={{ fontSize: "max(2.5vw, 35px)" }}>
+            Build Your Quiz
+          </Typography>
           <BasicSelect
             title="Number of Questions"
             options={[5, 10, 15, 20]}
@@ -87,14 +121,28 @@ export const BuildQuiz = () => {
               />
             }
             label="Timed Quiz"
+            sx={{
+              marginRight: "auto",
+              paddingLeft: "5%",
+              "& .MuiSwitch-thumb": {
+                backgroundColor: "white", // Set the desired color for the thumb
+              },
+              "& .MuiSwitch-track": {
+                backgroundColor: "pink", // Set the desired color for the track
+              },
+              "& .MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track": {
+                backgroundColor: "#ffbc4b",
+              },
+            }}
           />
-
+          {console.log("timed: " + timedQuiz)}
           <Button
             onClick={setStart}
+            color="inherit"
             disabled={!numQuestions || !difficulty}
-            style={{ color: "black" }}
+            style={{ backgroundColor: "#98b8c7" }}
           >
-            Start Quiz
+            Start
           </Button>
         </div>
       )}

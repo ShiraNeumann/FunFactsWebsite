@@ -3,6 +3,7 @@
     height: 100vh;
     width: 100vw;
     padding-top: 68px;
+    overflow: auto;
 }
 .card{
   position: absolute;
@@ -64,5 +65,3 @@
     position: fixed;
   bottom: 0;
   }
-
-  

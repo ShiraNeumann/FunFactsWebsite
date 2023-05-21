@@ -25,6 +25,7 @@ export function ProgressBar(props) {
             backgroundColor: "#ee78a2",
           },
           outlineColor: "#a1c3d3",
+          height: 10,
         }}
         value={progress}
       />

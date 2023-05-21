@@ -15,6 +15,8 @@ import math from "../../images/math.jpg";
 import politics from "../../images/politics.jpg";
 import science from "../../images/science.jpg";
 import sports from "../../images/sports.jpg";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Img = styled("img")({
   margin: "auto",
@@ -34,7 +36,13 @@ export function QuizDetails(props) {
     timed,
     difficulty,
   } = props;
+  const navigate = useNavigate();
 
+  const handleTryAgain = () => {
+    navigate(
+      `/quiz?difficulty=${difficulty}&category=${category}&number=${totalQ}&timed=${timed}`
+    );
+  };
   const categoryImages = {
     Computers: computer,
     "Science & Nature": science,
@@ -64,6 +72,8 @@ export function QuizDetails(props) {
         flexGrow: 1,
         backgroundColor: (theme) =>
           theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+        marginTop: "2%",
+        position: "relative",
       }}
       key={quiznumber}
     >
@@ -80,6 +90,7 @@ export function QuizDetails(props) {
             <Img src={getCategoryImage(category)} alt="category" />
           </ButtonBase>
         </Grid>
+
         <Grid item xs={12} sm container>
           <Grid
             item
@@ -90,7 +101,12 @@ export function QuizDetails(props) {
             spacing={2}
           >
             <Grid item>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography
+                gutterBottom
+                variant="h5"
+                sx={{ fontSize: "max(2vw, 30px)" }}
+                component="div"
+              >
                 Quiz {quiznumber}: {category}
               </Typography>
               <Typography variant="body1" gutterBottom>
@@ -109,8 +125,14 @@ export function QuizDetails(props) {
                 Incorrect Questions: {incorrect}
               </Typography>
               <Typography variant="body1" gutterBottom>
-                Timed: {timed}
+                Timed: {timed ? "Yes" : "No"}
               </Typography>
+              <Grid
+                item
+                sx={{ position: "absolute", bottom: 0, right: 0, p: 2 }}
+              >
+                <Button onClick={handleTryAgain}>Try Another</Button>
+              </Grid>{" "}
             </Grid>
           </Grid>
         </Grid>

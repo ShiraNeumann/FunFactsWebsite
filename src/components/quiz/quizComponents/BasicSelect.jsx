@@ -14,7 +14,7 @@ export function BasicSelect(props) {
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: "30vw" }}>
       <FormControl fullWidth>
         <InputLabel id="input-label" style={{ color: "black" }}>
           {title}

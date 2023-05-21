@@ -75,7 +75,7 @@ export function BasicTabs() {
       fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
         .then((response) => response.json())
         .then((data) => {
-          if (data.title == "No Definitions Found") {
+          if (data.title === "No Definitions Found") {
             setWord("");
             getRandomWord();
           } else {
@@ -136,18 +136,35 @@ export function BasicTabs() {
         <Box sx={{ minWidth: 275 }}>
           <Typography
             variant="h1"
-            sx={{ alignSelf: "left", paddingLeft: "5%", paddingTop: "12%" }}
+            sx={{
+              alignSelf: "left",
+              paddingLeft: "5%",
+              paddingTop: "12%",
+              fontSize: "max(6vw,35px)",
+            }}
           >
             Riddle
             <br />
             <Button
-              variant="text"
-              color="inherit"
-              onClick={() => {
-                getRiddle();
+              sx={{
+                position: "relative",
+                display: "inline-block",
+                backgroundColor: "#ffbc4b",
+                padding: "4px",
+                borderRadius: "4px",
+                marginRight: "8px",
               }}
             >
-              See another
+              <Button
+                variant="text"
+                color="inherit"
+                onClick={() => {
+                  getRiddle();
+                }}
+                sx={{ color: "black", backgroundColor: "white" }}
+              >
+                See another
+              </Button>
             </Button>
           </Typography>
 
@@ -183,12 +200,33 @@ export function BasicTabs() {
           ></Card>
           <Card className="card" sx={{ overflow: "auto" }}>
             {isRiddleFlipped ? (
-              <Typography variant="h4" sx={{ padding: "3%" }}>
-                Answer: {riddle[1]}
-              </Typography>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  sx={{ padding: "3%", fontSize: "max(1.7vw,18px)" }}
+                >
+                  Answer: {riddle[1]}
+                </Typography>
+              </div>
             ) : (
-              <div style={{ height: "100%", alignContent: "center" }}>
-                <Typography variant="h4" sx={{ padding: "3%" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  sx={{ padding: "3%", fontSize: "max(1.7vw,18px)" }}
+                >
                   {riddle[0]}
                 </Typography>
               </div>
@@ -210,19 +248,36 @@ export function BasicTabs() {
         <Typography
           variant="h1"
           // fontFamily={"Bahnschrift SemiLight"}
-          sx={{ alignSelf: "left", paddingLeft: "5%", paddingTop: "12%" }}
+          sx={{
+            alignSelf: "left",
+            paddingLeft: "5%",
+            paddingTop: "12%",
+            fontSize: "max(6vw,35px)",
+          }}
         >
           Random <br />
           Word
           <br />
           <Button
-            variant="text"
-            color="inherit"
-            onClick={() => {
-              getRandomWord();
+            sx={{
+              position: "relative",
+              display: "inline-block",
+              backgroundColor: "#f37ba3",
+              padding: "4px",
+              borderRadius: "4px",
+              marginRight: "8px",
             }}
           >
-            See another
+            <Button
+              variant="text"
+              color="inherit"
+              onClick={() => {
+                getRandomWord();
+              }}
+              sx={{ backgroundColor: "white", color: "black" }}
+            >
+              See another
+            </Button>
           </Button>
         </Typography>
 
@@ -275,13 +330,19 @@ export function BasicTabs() {
                     >
                       {entry.meanings.map((meaning) => (
                         <>
-                          <Typography variant="h3" sx={{ padding: "3%" }}>
+                          <Typography
+                            variant="h3"
+                            sx={{ padding: "3%", fontSize: "max(2.3vw,20px)" }}
+                          >
                             {meaning.partOfSpeech}
                           </Typography>
                           <ul>
                             {meaning.definitions.map((definition, index) => (
                               <li key={index}>
-                                <Typography variant="h4">
+                                <Typography
+                                  variant="h4"
+                                  sx={{ fontSize: "max(1.7vw,18px)" }}
+                                >
                                   {definition.definition}
                                 </Typography>
                               </li>
@@ -303,7 +364,7 @@ export function BasicTabs() {
                     .map((entry) => (
                       <Typography
                         variant="h2"
-                        sx={{ padding: "3%" }}
+                        sx={{ padding: "3%", fontSize: "max(4vw,18px)" }}
                         gutterBottom
                         key={entry.word}
                       >
@@ -327,18 +388,34 @@ export function BasicTabs() {
       <TabPanel value={value} index={2}>
         <Typography
           variant="h1"
-          sx={{ alignSelf: "left", paddingLeft: "5%", paddingTop: "12%" }}
+          sx={{
+            alignSelf: "left",
+            paddingLeft: "5%",
+            paddingTop: "12%",
+            fontSize: "max(6vw,35px)",
+          }}
         >
           Fun Fact
           <br />
           <Button
-            variant="text"
-            color="inherit"
-            onClick={() => {
-              getFact();
+            sx={{
+              position: "relative",
+              display: "inline-block",
+              backgroundColor: "#6900ba",
+              padding: "4px",
+              borderRadius: "4px",
+              marginRight: "8px",
             }}
           >
-            See another
+            <Button
+              variant="text"
+              onClick={() => {
+                getFact();
+              }}
+              sx={{ backgroundColor: "white", color: "black" }}
+            >
+              See another
+            </Button>
           </Button>
         </Typography>
         <Box sx={{ minWidth: 275 }}>
@@ -373,8 +450,18 @@ export function BasicTabs() {
             }}
           ></Card>
           <Card className="card" sx={{ overflow: "auto" }}>
-            <div style={{ height: "100%", alignContent: "center" }}>
-              <Typography variant="h4" sx={{ padding: "3%" }}>
+            <div
+              style={{
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                variant="h4"
+                sx={{ padding: "3%", fontSize: "max(1.7vw,18px)" }}
+              >
                 {fact}
               </Typography>
             </div>

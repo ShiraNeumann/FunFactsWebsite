@@ -21,10 +21,10 @@ function CircularProgressWithLabel(props) {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h5" component="div">
+        <Typography variant="h5" sx={{ fontSize: "2vw" }} component="div">
           {props.label}
         </Typography>
-        <Typography variant="h4" component="div">
+        <Typography variant="h4" sx={{ fontSize: "3.5vw" }} component="div">
           {`${Math.round(props.value)}%`}
         </Typography>
       </Box>

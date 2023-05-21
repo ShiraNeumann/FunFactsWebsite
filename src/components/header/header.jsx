@@ -32,6 +32,10 @@ export function Header() {
       navigate(page.path);
     }
   };
+
+  const sendHome = () => {
+    navigate("/");
+  };
   return (
     <>
       <AppBar
@@ -40,7 +44,7 @@ export function Header() {
       >
         <Container maxWidth="xl">
           <Toolbar>
-            <img src={logo} className="logo" />
+            <img src={logo} className="logo" onClick={sendHome} />
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"

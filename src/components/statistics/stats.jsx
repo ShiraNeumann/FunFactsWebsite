@@ -1,26 +1,14 @@
 import React, { useContext } from "react";
 import { quizcontext } from "../../state/quiz/quiz-context";
-import {
-  Grid,
-  Typography,
-  useMediaQuery,
-  ThemeProvider,
-  createTheme,
-} from "@mui/material";
+import { Grid, Typography, ThemeProvider, createTheme } from "@mui/material";
 import "./stats.css";
 import { QuizDetails } from "./quizDetails";
-import { SkeletonQuiz } from "./skeleton";
 import { AverageProgress } from "./progressAverage";
-import Skeleton from "@mui/material/Skeleton";
-
+import Link from "@mui/material/Link";
+import { useNavigate } from "react-router-dom";
 export function Statistics() {
   const { quizState } = useContext(quizcontext);
   const numQuizzes = quizState.quizDetails.length;
-  const numSkeletons = Math.max(2 - numQuizzes, 0);
-  const numCategories = Array.from(
-    new Set(quizState.quizDetails.map((quiz) => quiz.category))
-  ).length;
-  const numAverageSkeletons = Math.max(2 - numCategories, 0);
 
   const getCategoryAverageScore = (category) => {
     const quizzesInCategory = quizState.quizDetails.filter(
@@ -34,17 +22,27 @@ export function Statistics() {
 
     return isNaN(averageScore) ? 0 : Math.round(averageScore);
   };
+  const navigate = useNavigate();
 
-  const theme = createTheme();
+  const theme = createTheme({
+    typography: {
+      fontFamily: ["Ubuntu", "sans - serif"].join(","),
+    },
+  });
 
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const handleTakeQuiz = () => {
+    navigate(`/quiz`);
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <div className="page">
         <Grid container spacing={4}>
           <Grid item xs={12} sm={8}>
-            <Typography variant="h2" sx={{ marginLeft: "10%" }}>
+            <Typography
+              variant="h2"
+              sx={{ marginLeft: "10%", fontSize: "max(4vw, 24px)" }}
+            >
               Quiz History
             </Typography>
             {quizState.quizDetails.map((quiz, index) => (
@@ -56,54 +54,63 @@ export function Statistics() {
                 totalQ={quiz.questions}
                 correct={quiz.correct}
                 incorrect={quiz.questions - quiz.correct}
-                difficulty={
-                  quiz.difficulty.charAt(0).toUpperCase() +
-                  quiz.difficulty.slice(1)
-                }
-                timed={quiz.timed ? "Yes" : "No"}
-              />
-            ))}
-            {[...Array(numSkeletons)].map((_, index) => (
-              <SkeletonQuiz
-                key={index}
-                variant="rectangular"
-                height={118}
-                sx={{ padding: "5%" }}
+                difficulty={quiz.difficulty}
+                timed={quiz.timed}
               />
             ))}
           </Grid>
-          {!isSmallScreen && (
-            <>
-              <Grid item xs={12} sm={4}>
-                <Typography variant="h2" sx={{ marginLeft: "5%" }}>
-                  Averages
-                </Typography>
-                <Grid container spacing={2}>
-                  {Array.from(
-                    new Set(quizState.quizDetails.map((quiz) => quiz.category))
-                  ).map((category) => (
-                    <Grid item xs={12} key={category}>
-                      <AverageProgress
-                        category={category}
-                        average={getCategoryAverageScore(category)}
-                      />
-                    </Grid>
-                  ))}
-                  {[...Array(numAverageSkeletons)].map((_, index) => (
-                    <Grid item xs={12} key={index}>
-                      <Skeleton
-                        variant="circular"
-                        width={"16vw"}
-                        height={"16vw"}
-                        sx={{ marginTop: "12%" }}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
+          <>
+            <Grid item xs={12} sm={4}>
+              <Typography
+                variant="h2"
+                sx={{ marginLeft: "5%", fontSize: "max(4vw, 24px)" }}
+              >
+                Averages
+              </Typography>
+              <Grid container spacing={2}>
+                {Array.from(
+                  new Set(quizState.quizDetails.map((quiz) => quiz.category))
+                ).map((category) => (
+                  <Grid item xs={12} key={category}>
+                    <AverageProgress
+                      category={category}
+                      average={getCategoryAverageScore(category)}
+                    />
+                  </Grid>
+                ))}
               </Grid>
-            </>
-          )}
+            </Grid>
+          </>
+          )
         </Grid>
+        {numQuizzes === 0 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "50vh",
+            }}
+          >
+            <Typography variant="h2" align="center">
+              You have no quizzes.
+              <br />
+              Take one{" "}
+              <Link
+                onClick={handleTakeQuiz}
+                underline="none"
+                color="inherit"
+                sx={{
+                  "&:hover": {
+                    color: "#f37ba3",
+                  },
+                }}
+              >
+                now!
+              </Link>
+            </Typography>
+          </div>
+        )}
       </div>
     </ThemeProvider>
   );
